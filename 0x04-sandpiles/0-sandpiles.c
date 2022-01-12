@@ -1,6 +1,6 @@
 #include "sandpiles.h"
 /**
- * print_grid_unstable 
+ * print_grid_unstable
  * @grid: grid to print
  * Return: Nothing
  */
