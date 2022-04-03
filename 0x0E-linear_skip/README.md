@@ -16,4 +16,4 @@ A linked list with an express lane is called a skip list.
 
 ## Author
 
-**Joshua Martinez** - [valvarezgi](https://github.com/valvarezgi)
+**Valeria Alvarez Giraldo* - [valvarezgi](https://github.com/valvarezgi)
