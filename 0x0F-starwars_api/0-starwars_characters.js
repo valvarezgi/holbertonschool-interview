@@ -1,20 +1,27 @@
 #!/usr/bin/node
 const request = require("request");
-request(
-  `https://swapi-api.hbtn.io/api/films/${process.argv[2]}`,
-  (err, res, body) => {
-    if (!err) {
-      const characters = JSON.parse(body).characters;
-      recursionRequestPrint(characters, 0);
-    }
-  }
-);
+const args = process.argv;
+const filmUrl = `https://swapi-api.hbtn.io/api/films/${args[2]}`;
 
-function recursionRequestPrint(url, index) {
-  request(url[index], (err, res, body) => {
-    if (!err) {
-      console.log(JSON.parse(body).name);
-      if (index + 1 < url.length) recursionRequestPrint(url, ++index);
-    }
+request(filmUrl, function (error, response, body) {
+  if (error) {
+    return console.log(error);
+  }
+  const characters = JSON.parse(body).characters;
+  const orderedChars = {};
+
+  characters.forEach((character) => {
+    request(character, function (error, response, body) {
+      if (error) {
+        return console.log(error);
+      }
+      const name = JSON.parse(body).name;
+      orderedChars[character] = name;
+      if (Object.values(orderedChars).length === characters.length) {
+        characters.forEach((character) => {
+          console.log(orderedChars[character]);
+        });
+      }
+    });
   });
-}
+});
