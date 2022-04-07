@@ -1,12 +1,12 @@
 #!/usr/bin/node
 const args = process.argv.slice(2);
 const URL = 'https://swapi-api.hbtn.io/api/films/' + args[0];
-const request = require("request");
+const request = require('request');
 
 const getCharacterName = (link) => {
   const characterName = new Promise((resolve, reject) => {
     request(link, (error, response, body) => {
-      if (error) console.error("error:", error);
+      if (error) console.error( 'error:', error);
       resolve(JSON.parse(body).name);
     });
   });
