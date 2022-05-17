@@ -14,4 +14,4 @@ What you should learn from this project:
 
 ## Author
 
-**Valeria Alvarez Giraldo* - [dantsub](https://github.com/valvarezgi)
+**Valeria Alvarez Giraldo** - [valvarezgi](https://github.com/valvarezgi)
