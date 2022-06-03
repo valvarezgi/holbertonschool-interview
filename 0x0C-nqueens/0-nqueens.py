@@ -1,68 +1,65 @@
 #!/usr/bin/python3
-"""Solution to N Queens problem"""
+"""
+    N-queen problem
+    The next algo solve any N queen in any NxN
+    Being N > 3
+"""
 import sys
 
 
-def format(board):
-    """Prints according to requirements"""
-    ret = []
-    for i in range(len(board)):
-        colIdx = board[i].index(1)
-        ret.append([i, colIdx])
-    print(ret)
+def n_q(t_arr, arr, col, i, n):
+    """
+       n_q - Find all posibles solution for N-queen problem and return it
+             in a list
+       @t_arr: temporaly list to store the all points of a posible solution
+       @arr: store all the solution
+       @col: save a colum use for a queen
+       @i: the row of the chess table
+       @n: Number of queens
+    """
+    if (i > n):
+        arr.append(t_arr[:])
+        return arr
 
+    for j in range(n + 1):
+        if i == 0 or ([i - 1, j - 1] not in t_arr and
+                      [i - 1, j + 1] not in t_arr and
+                      j not in col):
+            if i > 1:
+                dia = 0
+                for k in range(2, i + 1):
+                    if ([i - k, j - k] in t_arr) or ([i - k, j + k] in t_arr):
+                        dia = 1
+                        break
+                if dia:
+                    continue
+            t_arr.append([i, j])
+            col.append(j)
+            n_q(t_arr, arr, col, i + 1, n)
+            col.pop()
+            t_arr.pop()
 
-def isValid(board, curCol, row, n):
-    """Checks if board[row][curCol] is a valid queen"""
-    # Check prev columns
-    for i in range(curCol):
-        if board[row][i] == 1:
-            return False
-    # Check for upper diagonal
-    i = row
-    j = curCol
-    while i >= 0 and j >= 0:
-        if board[i][j] == 1:
-            return False
-        i -= 1
-        j -= 1
-    # Check for lower diagonal
-    i = row
-    j = curCol
-    while i < n and j >= 0:
-        if board[i][j] == 1:
-            return False
-        i += 1
-        j -= 1
-    return True
+    return arr
 
-
-def nQueens(board, curCol, n):
-    """Recursive call that places queens in all the
-    posible positions of the board"""
-    stat = False
-    if curCol == n:
-        format(board)
-        return True
-    for row in range(0, n):
-        if isValid(board, curCol, row, n):
-            board[row][curCol] = 1
-            stat = nQueens(board, curCol + 1, n) or stat
-            board[row][curCol] = 0
-    return stat
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         exit(1)
-    if not sys.argv[1].isdigit():
+
+    try:
+        n = int(sys.argv[1])
+    except:
         print("N must be a number")
         exit(1)
-    n = int(sys.argv[1])
-    if n < 4:
+
+    if not isinstance(n, int):
+        print("N must be a number")
+        exit(1)
+
+    elif n < 4:
         print("N must be at least 4")
         exit(1)
-    board = [[0 for i in range(n)]for j in range(n)]
-    # first col is 0
-    nQueens(board, 0, n)
+
+    n_q_arr = n_q([], [], [], 0, n - 1)
+    for i in n_q_arr:
+        print(i)
